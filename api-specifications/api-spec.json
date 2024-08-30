@@ -1,0 +1,251 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Book store API",
+		"version": "1.0.0",
+		"description": "This is API spec for example starter project",
+		"termsOfService": "https://example.com/terms",
+		"license": { "name": "Apache-2.0", "url": "https://www.apache.org/licenses/LICENSE-2.0.html" },
+		"contact": {
+			"name": "API support",
+			"email": "supprt@email.com",
+			"url": "https://example.com/support"
+		}
+	},
+	"servers": [
+		{ "url": "https://api.server.test/v1", "description": "Production endpoint" },
+		{ "url": "https://staging-api.server.test/v1", "description": "Staging endpoint" }
+	],
+
+	"tags": [
+		{ "name": "User", "description": "Operations related to user" },
+		{ "name": "Book", "description": "Operations related to book" }
+	],
+
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		},
+		"schemas": {
+			"Book": {
+				"type": "object",
+				"$ref": "./components/schemas/book/book.json#/Book"
+			},
+			"Users": {
+				"type": "array",
+				"items": {
+					"$ref": "./components/schemas/user/user.json#/User"
+				}
+			},
+			"User": {
+				"type": "object",
+				"$ref": "./components/schemas/user/userById.json#/UserById"
+			},
+			"Create User": {
+				"type": "object",
+				"$ref": "./components/schemas/user/createUser.json#/CreateUser"
+			},
+			"Edit User": {
+				"type": "object",
+				"$ref": "./components/schemas/user/createUser.json#/CreateUser"
+			}
+		}
+	},
+	"paths": {
+		"/users": {
+			"get": {
+				"summary": "Returns a list of users",
+				"security": [{ "bearerAuth": [] }],
+				"tags": ["User"],
+				"description": "Retrieve a list of all registered users.",
+				"operationId": "listUsers",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "./components/schemas/user/user.json#/User"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "./components/schemas/response/401.json#/401"
+					},
+
+					"500": {
+						"$ref": "./components/schemas/response/500.json#/500"
+					}
+				}
+			},
+			"post": {
+				"summary": "Create new user",
+				"security": [{ "bearerAuth": [] }],
+				"tags": ["User"],
+				"description": "Retrieve create new user.",
+				"operationId": "createUser",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "./components/schemas/user/createUser.json#/CreateUser"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created"
+					},
+					"400": {
+						"$ref": "./components/schemas/response/400.json#/400"
+					},
+					"401": {
+						"$ref": "./components/schemas/response/401.json#/401"
+					},
+					"500": {
+						"$ref": "./components/schemas/response/500.json#/500"
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"tags": ["User"],
+				"security": [{ "bearerAuth": [] }],
+				"summary": "Get a user by ID",
+				"description": "Retrieve a single user by their unique ID.",
+				"operationId": "getUserById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the user to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "./components/schemas/user/user.json#/User"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "./components/schemas/response/400.json#/400"
+					},
+					"401": {
+						"$ref": "./components/schemas/response/401.json#/401"
+					},
+					"404": {
+						"$ref": "./components/schemas/response/404.json#/404"
+					},
+					"500": {
+						"$ref": "./components/schemas/response/500.json#/500"
+					}
+				}
+			},
+			"put": {
+				"tags": ["User"],
+				"security": [{ "bearerAuth": [] }],
+				"summary": "Edit a user by ID",
+				"description": "Retrieve a single user by their unique ID for edit.",
+				"operationId": "editUserById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the user to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "./components/schemas/user/createUser.json#/CreateUser"
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"$ref": "./components/schemas/response/400.json#/400"
+					},
+					"401": {
+						"$ref": "./components/schemas/response/401.json#/401"
+					},
+					"404": {
+						"$ref": "./components/schemas/response/404.json#/404"
+					},
+					"500": {
+						"$ref": "./components/schemas/response/500.json#/500"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["User"],
+				"security": [{ "bearerAuth": [] }],
+				"summary": "Delete a user by ID",
+				"description": "Retrieve a single user by their unique ID for delete.",
+				"operationId": "deleteUserById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the user to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"$ref": "./components/schemas/response/400.json#/400"
+					},
+					"401": {
+						"$ref": "./components/schemas/response/401.json#/401"
+					},
+					"404": {
+						"$ref": "./components/schemas/response/404.json#/404"
+					},
+					"500": {
+						"$ref": "./components/schemas/response/500.json#/500"
+					}
+				}
+			}
+		}
+	},
+
+	"security": [
+		{
+			"bearerAuth": []
+		}
+	]
+}
+

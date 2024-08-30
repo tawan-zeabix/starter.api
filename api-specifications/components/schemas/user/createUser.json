@@ -1,0 +1,21 @@
+{
+	"CreateUser": {
+		"type": "object",
+		"required": ["username", "firstname", "lastname"],
+		"properties": {
+			"username": {
+				"type": "string",
+				"example": "user-01"
+			},
+			"firstname": {
+				"type": "string",
+				"example": "Somchai"
+			},
+			"lastname": {
+				"type": "string",
+				"example": "Sukaruksana"
+			}
+		}
+	}
+}
+

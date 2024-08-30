@@ -1,0 +1,14 @@
+{
+	"404": {
+		"description": "Not found",
+		"content": {
+			"text/plain": {
+				"schema": {
+					"type": "string",
+					"default": "Resource not found."
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,14 @@
+{
+	"401": {
+		"description": "Bad request",
+		"content": {
+			"text/plain": {
+				"schema": {
+					"type": "string",
+					"default": "Unauthorized."
+				}
+			}
+		}
+	}
+}
+

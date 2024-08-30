@@ -1,0 +1,14 @@
+{
+	"500": {
+		"description": "Internal server error",
+		"content": {
+			"text/plain": {
+				"schema": {
+					"type": "string",
+					"default": "Internal server error. Please try again later."
+				}
+			}
+		}
+	}
+}
+

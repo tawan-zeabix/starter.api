@@ -1,0 +1,24 @@
+{
+	"Book": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "integer",
+				"example": 1
+			},
+			"title": {
+				"type": "string",
+				"example": "Power of cash"
+			},
+			"price": {
+				"type": "number",
+				"example": 100.29
+			},
+			"writerId": {
+				"type": "integer",
+				"example": 2
+			}
+		}
+	}
+}
+
