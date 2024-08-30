@@ -1,0 +1,81 @@
+# Ignore bin, obj, and other build directories
+**/bin/
+**/obj/
+**/out/
+
+# Ignore build artifacts
+**/artifacts/
+**/publish/
+
+# NuGet packages
+*.nupkg
+**/packages/
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+
+# Logs and Debugging
+**/*.log
+.vscode/
+.idea/
+*.tsscache
+*.sln.iml
+.vscode/
+.vscode-test/
+
+# Test results
+TestResults/
+[Tt]est[Rr]esult*
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider project files
+.idea/
+.idea_modules/
+*.sln.iml
+
+# Auto-generated files
+project.lock.json
+project.fragment.lock.json
+*.props
+*.targets
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile
+**/docker-compose*.yml
+
+# Ignore all hidden files
+.*
+!.gitignore
+
+# Ignore IDE-specific files and folders
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+[Tt]humbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.bak
+
+# Ignore generated code (common in API projects)
+**/*.g.cs
+**/*.designer.cs
+
+# Ignore byproducts of the docker-compose
+**/docker-compose.override.yml
+**/docker-compose.db.override.yml
+
+# Ignore build folders inside src folder
+src/**/bin/
+src/**/obj/
+
+# Ignore build folders inside test project folder
+Starter.API.Test/**/bin/
+Starter.API.Test/**/obj/
