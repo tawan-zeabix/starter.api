@@ -1,0 +1,48 @@
+@startuml
+title Update User API Flow
+
+actor Client
+participant "User API" as API
+participant "Auth Service" as Auth
+participant "Database" as DB
+
+' Step 1: Authentication
+Client -> API: PUT /users/{id} (Request to update a user)
+activate API
+API -> Auth: Verify JWT Token
+activate Auth
+Auth -> API: 200 OK (Token Valid)
+deactivate Auth
+
+' Step 2: Validate Request Body
+API -> API: Validate user data
+alt Validation Fails
+    API -> Client: 400 Bad Request (Invalid Data)
+    deactivate API
+    return
+end
+
+' Step 3: Fetch User by ID
+API -> DB: SELECT * FROM users WHERE id = {id}
+activate DB
+alt User Found
+    DB -> API: Return user data
+else User Not Found
+    DB -> API: 404 Not Found
+    deactivate DB
+    deactivate API
+    return
+end
+deactivate DB
+
+' Step 4: Update User
+API -> DB: UPDATE users SET (password, email) WHERE id = {id}
+activate DB
+DB -> API: 200 OK (User Updated)
+deactivate DB
+
+' Step 5: Return Response
+API -> Client: 200 OK (Updated User Details)
+deactivate API
+
+@enduml

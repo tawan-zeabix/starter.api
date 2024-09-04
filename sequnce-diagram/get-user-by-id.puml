@@ -1,0 +1,35 @@
+@startuml
+title Get User by ID API Flow
+
+actor Client
+participant "User API" as API
+participant "Auth Service" as Auth
+participant "Database" as DB
+
+' Step 1: Authentication
+Client -> API: GET /users/{id} (Request to get user by ID)
+activate API
+API -> Auth: Verify JWT Token
+activate Auth
+Auth -> API: 200 OK (Token Valid)
+deactivate Auth
+
+' Step 2: Fetch User by ID
+API -> DB: SELECT * FROM users WHERE id = {id}
+activate DB
+alt User Found
+    DB -> API: Return user data
+else User Not Found
+    DB -> API: 404 Not Found
+end
+deactivate DB
+
+' Step 3: Return Response
+alt User Found
+    API -> Client: 200 OK (User Data)
+else User Not Found
+    API -> Client: 404 Not Found
+end
+deactivate API
+
+@enduml

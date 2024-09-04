@@ -1,0 +1,27 @@
+@startuml
+title Get All Users API Flow
+
+actor Client
+participant "User API" as API
+participant "Auth Service" as Auth
+participant "Database" as DB
+
+' Step 1: Authentication
+Client -> API: GET /users (Request to get all users)
+activate API
+API -> Auth: Verify JWT Token
+activate Auth
+Auth -> API: 200 OK (Token Valid)
+deactivate Auth
+
+' Step 2: Fetch Users from Database
+API -> DB: SELECT * FROM users
+activate DB
+DB -> API: Return list of users
+deactivate DB
+
+' Step 3: Return Response
+API -> Client: 200 OK (List of Users)
+deactivate API
+
+@enduml

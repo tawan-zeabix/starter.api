@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+    title: User API
+    description: API for managing users, including CRUD operations.
+    version: 1.0.0
+servers:
+    - url: http://localhost:3000/api
+      description: Local development server
+
+paths:
+    /users:
+        get:
+            summary: Get all users
+            tags:
+                - Users
+            responses:
+                "200":
+                    description: A list of users.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/User"
+                "401":
+                    description: Unauthorized
+        post:
+            summary: Create a new user
+            tags:
+                - Users
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UserCreate"
+            responses:
+                "201":
+                    description: User created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "400":
+                    description: Bad request
+                "409":
+                    description: Conflict - User already exists
+                "401":
+                    description: Unauthorized
+
+    /users/{id}:
+        get:
+            summary: Get a user by ID
+            tags:
+                - Users
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID of the user to retrieve
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: User found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "404":
+                    description: User not found
+                "401":
+                    description: Unauthorized
+        put:
+            summary: Update a user by ID
+            tags:
+                - Users
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID of the user to update
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UserUpdate"
+            responses:
+                "200":
+                    description: User updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "400":
+                    description: Bad request
+                "404":
+                    description: User not found
+                "401":
+                    description: Unauthorized
+        delete:
+            summary: Delete a user by ID
+            tags:
+                - Users
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID of the user to delete
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: User deleted successfully
+                "404":
+                    description: User not found
+                "401":
+                    description: Unauthorized
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier for the user
+                username:
+                    type: string
+                    description: Username of the user
+                email:
+                    type: string
+                    description: Email of the user
+                role:
+                    type: string
+                    description: Role of the user (e.g., "admin", "user")
+            required:
+                - id
+                - username
+                - email
+                - role
+
+        UserCreate:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+                email:
+                    type: string
+                role:
+                    type: string
+            required:
+                - username
+                - password
+                - email
+                - role
+
+        UserUpdate:
+            type: object
+            properties:
+                password:
+                    type: string
+                email:
+                    type: string
+            required:
+                - password
+                - email
+

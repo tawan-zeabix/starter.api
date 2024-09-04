@@ -1,0 +1,40 @@
+@startuml
+title Delete User API Flow
+
+actor Client
+participant "User API" as API
+participant "Auth Service" as Auth
+participant "Database" as DB
+
+' Step 1: Authentication
+Client -> API: DELETE /users/{id} (Request to delete a user)
+activate API
+API -> Auth: Verify JWT Token
+activate Auth
+Auth -> API: 200 OK (Token Valid)
+deactivate Auth
+
+' Step 2: Fetch User by ID
+API -> DB: SELECT * FROM users WHERE id = {id}
+activate DB
+alt User Found
+    DB -> API: Return user data
+else User Not Found
+    DB -> API: 404 Not Found
+    deactivate DB
+    deactivate API
+    return
+end
+deactivate DB
+
+' Step 3: Delete User
+API -> DB: DELETE FROM users WHERE id = {id}
+activate DB
+DB -> API: 200 OK (User Deleted)
+deactivate DB
+
+' Step 4: Return Response
+API -> Client: 200 OK (User Deleted)
+deactivate API
+
+@enduml
